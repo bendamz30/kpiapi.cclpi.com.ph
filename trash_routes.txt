@@ -1,0 +1,16 @@
+// Trash Bin Routes
+Route::prefix('trash')->group(function () {
+    // Get deleted records
+    Route::get('users', [TrashController::class, 'getDeletedUsers']);
+    Route::get('sales-reports', [TrashController::class, 'getDeletedSalesReports']);
+    Route::get('stats', [TrashController::class, 'getTrashStats']);
+    
+    // Restore records
+    Route::post('users/{id}/restore', [TrashController::class, 'restoreUser']);
+    Route::post('sales-reports/{id}/restore', [TrashController::class, 'restoreSalesReport']);
+    
+    // Permanently delete records
+    Route::delete('users/{id}', [TrashController::class, 'permanentlyDeleteUser']);
+    Route::delete('sales-reports/{id}', [TrashController::class, 'permanentlyDeleteSalesReport']);
+});
+
