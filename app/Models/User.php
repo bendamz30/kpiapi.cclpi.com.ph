@@ -103,7 +103,11 @@ class User extends Authenticatable
         // Add cache busting parameter if enabled
         if (config('profile-pictures.url_generation.cache_busting', false)) {
             $separator = strpos($url, '?') !== false ? '&' : '?';
-            $url .= $separator . 'v=' . $this->updated_at?->timestamp ?? time();
+            // Get raw timestamp value to avoid issues with custom accessors
+            $timestamp = $this->getOriginal('updated_at') 
+                ? strtotime($this->getOriginal('updated_at')) 
+                : time();
+            $url .= $separator . 'v=' . $timestamp;
         }
         
         return $url;
